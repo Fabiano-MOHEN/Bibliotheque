@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Category;
+use App\Models\State;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,20 +14,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pages', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+
 
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('auteur');
-            $table->string('titre');
+            $table->string('author');
+            $table->string('title');
             $table->string('image')->nullable();
-            $table->decimal('prix', 8, 2);
+            $table->decimal('price', 8, 2);
             $table->string('edition');
-            $table->date('date');
+            $table->date('published_at');
             $table->text('resume');
+            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(State::class);
+            $table->foreignIdFor(Category::class);
             $table->timestamps();
         });
     }
@@ -35,6 +38,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('books');
-        Schema::dropIfExists('pages');
     }
 };
